@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#/ Sleep for 10 seconds.  Can return success or failure.
+#/
+#/   10-second-wait ARGS
+#/
+#/ ARGS - If any arguments are passed, this returns a failure.
+
+echo "Sleeping for 10 seconds"
+
+I=0
+while [[ $I -lt 10 ]]; do
+    sleep 1
+    I=$(($I + 1))
+    echo "Slept $I seconds"
+done
+
+echo "Returning $#"
+exit $#
