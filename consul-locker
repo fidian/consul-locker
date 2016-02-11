@@ -132,7 +132,7 @@ consulLockObtain() {
     clDebug "$result"
 
     if [[ "$result" != "true" ]] && [[ "$noWait" == "true" ]]; then
-        clDebug "--no-wait set to true, exiting."
+        clDebug "--no-wait set to true, and lock not obtained."
         return 1
     fi
 
