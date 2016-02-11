@@ -21,7 +21,7 @@ Consul-Locker takes at least two parameters.
     consul-locker [options] serviceName commandToRun [commandArguments]
 
 * `--help` or `-h` - Show the help message.
-* `-no-wait` - Do not wait for a lock, exit immediately if it is not obtained.
+* `--no-wait` - Do not wait for a lock, exit immediately if it is not obtained.
 * `serviceName` - Name of service to lock in [Consul].  Should be a single string.  It's used in a URL so properly URL-encode any special characters or just omit those.
 * `commandToRun` - The executable you want to run.
 * `commandArguments` - Any extra arguments or options to pass to the command.

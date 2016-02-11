@@ -132,7 +132,7 @@ consulLockObtain() {
     clDebug "$result"
 
     if [[ "$result" != "true" ]] && [[ "$noWait" == "true" ]]; then
-        clDebug "--no-wait set to true, and lock not obtained."
+        clDebug "Lock obtained by another process and --no-wait is enabled.  Aborting."
         return 1
     fi
 
@@ -238,9 +238,11 @@ parseArguments() {
                 grep "^#/" "$myself" | cut -b 4-
                 exit 0
                 ;;
+
             --no-wait)
                 noWait="true"
                 ;;
+
             -*)
                 echo "Unknown option: $1" >&2
                 exit 2
