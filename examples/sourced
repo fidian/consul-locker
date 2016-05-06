@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# This script will source consul-locker and use it to call a function
+
+. ../consul-locker
+
+waitTenSeconds() {
+    echo "Waiting 10 seconds"
+    sleep 10
+    echo "Done"
+}
+
+consulLocker test waitTenSeconds

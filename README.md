@@ -3,11 +3,13 @@ Consul-Locker
 
 This is a Bash shell script that will leverage [Consul]'s sessions and key-value store to ensure only one process will run in your data center at a time.
 
+The library can also be sourced into a Bash environment.  When used this way, it creates a `consulLocker` function.
+
 
 Requirements
 ------------
 
-1.  You must have this program somewhere on your system.  It makes the most sense in `/usr/local/bin` or in a folder listed in your `PATH`.  It can be called directly.
+1.  You must have this program somewhere on your system.  It makes the most sense in `/usr/local/bin` or in a folder listed in your `PATH`.  It can be called directly or sourced.
 2.  [Consul] is running on the same machine; this utility uses `localhost:8500` for communication.
 3.  Bash 3 or better.
 4.  Curl is installed and in the `PATH`.
@@ -39,6 +41,15 @@ Examples:
 
     # And in a second shell, this will exit 1 immediately
     ./consul-locker --no-wait test examples/10-second-wait
+
+    # Let's use a sourced version so we can call another function.
+    . ./consul-locker
+    waitTenSeconds() {
+        echo "Waiting 10 seconds"
+        sleep 10
+        echo "Done"
+    }
+    consulLocker test waitTenSeconds
 
 Don't forget to check out the scripts in the [examples folder].
 
