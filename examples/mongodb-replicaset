@@ -51,6 +51,7 @@ becomeMaster() {
         debug "Success"
     else
         debug "Failed to promote - Abort"
+
         return 6
     fi
 }
@@ -70,6 +71,7 @@ becomeMember() {
         debug "Success"
     else
         debug "Failed to join - Abort"
+
         return 6
     fi
 }
@@ -104,6 +106,7 @@ checkForNecessaryCommands() {
 commandBootstrap() {
     if [[ -z "$serviceName" ]]; then
         echo "Must pass a service name."
+
         return 5
     fi
 
@@ -159,6 +162,7 @@ confirmMongoReady() {
 
     if [[ "$isOk" != 1 ]]; then
         debug "Database is not ready: $isOk"
+
         return 1
     fi
 }
@@ -169,12 +173,14 @@ confirmMongoReplicaSetReady() {
 
     # Check replicaset status
     result=$(runMongo "$localAddress" 'rs.status()')
+    # shellcheck disable=SC2001
     clean=$(echo "$result" | sed 's/\(ISODate("\|Timestamp(\)\([^)"]*\)"\?)/"\2"/g')
     debug "Cleansed: $clean"
     myState=$(echo "$clean" | jq -r .myState 2>/dev/null || :)
 
     if [[ "$myState" != 1 ]] && [[ "$myState" != 2 ]]; then
         debug "Replica set is not ready: $myState"
+
         return 2
     fi
 
@@ -190,6 +196,7 @@ confirmMongoReplicaSetReady() {
 # Returns 3 on error.
 consulGet() {
     debug "GET $1$2"
+
     curl -L -f -s "$1$2" || return 3
 }
 
@@ -211,6 +218,7 @@ delayUntilReady() {
         debug "Mongo is ready"
     else
         debug "Mongo was never ready"
+
         return 6
     fi
 }
@@ -235,6 +243,7 @@ delayUntilReplicaSetReady() {
         debug "Mongo is ready"
     else
         debug "Mongo was never ready"
+
         return 6
     fi
     debug "Waiting until Consul reports at least one server for $serviceName"
@@ -243,6 +252,7 @@ delayUntilReplicaSetReady() {
         debug "Successfuly found a server in Consul"
     else
         debug "Failed to find a server in consul - aborting"
+
         return 6
     fi
 }
@@ -316,6 +326,7 @@ parseArguments() {
             case "$1" in
                 -h | --help)
                     grep "^#/" "$myself" | cut -b 4-
+
                     exit 0
                     ;;
 
@@ -343,6 +354,7 @@ parseArguments() {
 
                 -*)
                     echo "Unknown option: $1"
+
                     exit 2
                     ;;
             esac
@@ -433,12 +445,14 @@ case "${unparsedArguments[0]-}" in
     "")
         echo "No command specified."
         echo "Try using --help"
+
         exit 1
         ;;
 
     *)
         echo "Unknown command: $1"
         echo "Try using --help"
+
         exit 1
         ;;
 esac
